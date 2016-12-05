@@ -1,0 +1,9 @@
+# Drop all Requires, Obsoletes, and Provides statements in here
+Requires: pupmod-puppetlabs-stdlib < 5.0.0-0
+Requires: pupmod-puppetlabs-stdlib >= 4.9.0-0
+Requires: pupmod-simp-simplib >= 2.0.0-0
+Requires: pupmod-simp-simplib < 3.0.0-0
+Requires: pupmod-herculesteam-augeasproviders_core < 3.0.0-0
+Requires: pupmod-herculesteam-augeasproviders_core >= 2.1.1-0
+Requires: pupmod-herculesteam-augeasproviders_sysctl < 3.0.0-0
+Requires: pupmod-herculesteam-augeasproviders_sysctl >= 2.3.1-0
