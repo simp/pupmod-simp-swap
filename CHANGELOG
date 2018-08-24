@@ -1,3 +1,9 @@
+* Fri Aug 24 2018 Nick Miller <nick.miller@onyxpoint.com> - 0.1.2-0
+- Updates the metadata to support Puppet 5 and Oracle Linux
+- Migrates acceptance tests to suites
+- Adds OEL nodeset
+- Update module assets
+
 * Thu Jul 06 2017 Liz Nemsick <lnemsick.simp@gmail.com> - 0.1.1-0
 - Update puppet dependency and remove OBE pe dependency in metadata.json
 
