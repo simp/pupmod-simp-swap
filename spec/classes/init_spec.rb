@@ -2,38 +2,46 @@ require 'spec_helper'
 
 describe 'swap' do
   context 'supported operating systems' do
-    on_supported_os.each do |os, facts|
+    on_supported_os.each do |os, os_facts|
       context "on #{os}" do
         let(:facts) do
-          facts
+          os_facts
         end
 
         context 'with default parameters' do
-          let(:content) { File.read('spec/expected/dynamic_swappiness.rb') }
-          it { is_expected.to create_file('/usr/local/sbin/dynamic_swappiness.rb').with_content(content) }
-          it { is_expected.to create_cron('dynamic_swappiness') }
-          it { is_expected.not_to create_sysctl('vm.swappiness') }
-        end
-
-        context 'with different template parameters' do
-          let(:content) { File.read('spec/expected/dynamic_swappiness_off_default.rb') }
-          let(:params) {{
-            :max_swappiness => 70,
-            :maximum        => 80
-          }}
-          it { is_expected.to create_file('/usr/local/sbin/dynamic_swappiness.rb').with_content(content) }
-        end
-
-        context 'with dynamic_script => false' do
-          let(:params) {{
-            :dynamic_script => false,
-            :swappiness     => 10
-          }}
+          it { is_expected.to create_sysctl('vm.swappiness').with_value('60') }
           it { is_expected.not_to create_file('/usr/local/sbin/dynamic_swappiness.rb') }
-          it { is_expected.to create_cron('dynamic_swappiness').with(:ensure => 'absent') }
-          it { is_expected.to create_sysctl('vm.swappiness').with_value('10') }
+          it { is_expected.to create_cron('dynamic_swappiness').with_ensure('absent') }
         end
 
+        context 'with dynamic_script => true' do
+          context 'with default parameters' do
+            let(:params) {{ :dynamic_script => true, }}
+            let(:content) { File.read('spec/expected/dynamic_swappiness.rb') }
+            it { is_expected.to create_file('/usr/local/sbin/dynamic_swappiness.rb').with_content(content) }
+            it { is_expected.to create_cron('dynamic_swappiness')
+              .with_command('/usr/local/sbin/dynamic_swappiness.rb')
+            }
+            it { is_expected.not_to create_sysctl('vm.swappiness') }
+          end
+
+          context 'with different template parameters' do
+            let(:content) { File.read('spec/expected/dynamic_swappiness_off_default.rb') }
+            let(:params) {{
+              :dynamic_script  => true,
+              :cron_step       => 10,
+              :maximum         => 45,
+              :median          => 25,
+              :minimum         => 15,
+              :min_swappiness  => 3,
+              :low_swappiness  => 18,
+              :high_swappiness => 48,
+              :max_swappiness  => 88
+            }}
+
+            it { is_expected.to create_file('/usr/local/sbin/dynamic_swappiness.rb').with_content(content) }
+          end
+        end
       end
     end
   end

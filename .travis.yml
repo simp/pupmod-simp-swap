@@ -59,13 +59,6 @@ jobs:
         - bundle exec puppet module build
 
     - stage: spec
-      name: 'Puppet 5.3 (PE 2017.3)'
-      rvm: 2.4.5
-      env: PUPPET_VERSION="~> 5.3.0"
-      script:
-        - bundle exec rake spec
-
-    - stage: spec
       rvm: 2.4.5
       name: 'Puppet 5.5 (SIMP 6.3, PE 2018.1)'
       env: PUPPET_VERSION="~> 5.5.0"

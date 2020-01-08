@@ -6,19 +6,24 @@
 
 #### Table of Contents
 
-1. [Description](#description)
-2. [Setup - The basics of getting started with swap](#setup)
-    * [What swap affects](#what-swap-affects)
-    * [Beginning with swap](#beginning-with-swap)
-4. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
-    * [Acceptance Tests - Beaker env variables](#acceptance-tests)
+<!-- vim-markdown-toc GFM -->
 
+* [Description](#description)
+  * [This is a SIMP module](#this-is-a-simp-module)
+* [Setup](#setup)
+  * [What swap affects](#what-swap-affects)
+  * [Beginning with swap](#beginning-with-swap)
+* [Limitations](#limitations)
+* [Development](#development)
+  * [Acceptance tests](#acceptance-tests)
+
+<!-- vim-markdown-toc -->
 
 ## Description
 
 This module manages the swappiness of a system, either directly or with a dynamic script.
+
+See [REFERENCE.md](./REFERENCE.md) for API details.
 
 
 ### This is a SIMP module
@@ -28,45 +33,30 @@ a compliance-management framework built on Puppet.
 
 If you find any issues, they may be submitted to our [bug tracker](https://simp-project.atlassian.net/).
 
-**FIXME:** Ensure the *This is a SIMP module* section is correct and complete, then remove this message!
-
-This module is optimally designed for use within a larger SIMP ecosystem, but it can be used independently:
-
- * When included within the SIMP ecosystem, security compliance settings will be managed from the Puppet server.
- * If used independently, all SIMP-managed security subsystems are disabled by default and must be explicitly opted into by administrators.  Please review the `$client_nets`, `$enable_*` and `$use_*` parameters in `manifests/init.pp` for details.
-
-
 ## Setup
 
 
 ### What swap affects
 
-* The sysctl value `vm.swappiness`
-* If enabled, a script and a cron job.
-
+* The sysctl value `vm.swappiness`.
+* If enabled, the ability for the system to monitor the amount of free RAM and
+  dynamically set the swappiness based on monitored conditions.
+  * See [manifests/init.pp](./manifests/init.pp) for details.
 
 ### Beginning with swap
 
-The dynamic swappiness script is enabled by default and reccommended. To use this class, just include it on your system:
+To use this class, just include it on your system:
 
-``` yaml
----
-classes:
-  - swap
-
+```puppet
+include 'swap'
 ```
-
-There is an example output of the script (which is generated with a template from
-puppet) in the `spec/expected` directory. 
-
-## Reference
-
-Please refer to the inline documentation within each source file, or to the module's generated YARD documentation for reference material.
-
 
 ## Limitations
 
-SIMP Puppet modules are generally intended for use on Red Hat Enterprise Linux and compatible distributions, such as CentOS. Please see the [`metadata.json` file](./metadata.json) for the most up-to-date list of supported operating systems, Puppet versions, and module dependencies.
+SIMP Puppet modules are generally intended for use on Red Hat Enterprise Linux
+and compatible distributions, such as CentOS. Please see the [`metadata.json` file](./metadata.json)
+for the most up-to-date list of supported operating systems, Puppet versions,
+and module dependencies.
 
 
 ## Development
@@ -76,7 +66,13 @@ Please read our [Contribution Guide](https://simp.readthedocs.io/en/stable/contr
 
 ### Acceptance tests
 
-This module includes [Beaker](https://github.com/puppetlabs/beaker) acceptance tests using the SIMP [Beaker Helpers](https://github.com/simp/rubygem-simp-beaker-helpers).  By default the tests use [Vagrant](https://www.vagrantup.com/) with [VirtualBox](https://www.virtualbox.org) as a back-end; Vagrant and VirtualBox must both be installed to run these tests without modification. To execute the tests run the following:
+This module includes [Beaker](https://github.com/puppetlabs/beaker) acceptance
+tests using the SIMP [Beaker
+Helpers](https://github.com/simp/rubygem-simp-beaker-helpers).  By default the
+tests use [Vagrant](https://www.vagrantup.com/) with
+[VirtualBox](https://www.virtualbox.org) as a back-end; Vagrant and VirtualBox
+must both be installed to run these tests without modification. To execute the
+tests run the following:
 
 ```shell
 bundle install

@@ -1,3 +1,9 @@
+* Fri Jan 03 2020 Trevor Vaughan <tvaughan@onyxpoint.com> - 0.2.0-0
+- Disable dynamic_swappiness by default
+- Set static system swappiness to 60 by default
+- Add EL8 support
+- Add REFERENCE.md
+
 * Fri Aug 02 2019 Robert Vincent <pillarsdotnet@gmail.com> - 0.2.0-0
 - Drop Puppet 4 support
 - Add Puppet 6 support

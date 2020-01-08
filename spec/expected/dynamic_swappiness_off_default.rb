@@ -4,24 +4,24 @@ require 'optparse'
 
 # $maximum:   The percentage of memory free on the system above which we will
 #             set vm.swappiness to @min_swappiness
-@maximum = 80
+@maximum = 45
 # $median:    If the percentage of free memory on the system is between this
 #             number and @maximum, set vm.swappiness to @low_swappiness.
-@median = 10
+@median = 25
 # $minimum:   If the percentage of free memory on the system is between this
 #             number and @median, set vm.swappiness to @high_swappiness.
 #             If below this number, set to @max_swappiness.
-@minimum = 5
+@minimum = 15
 
 # $min_swappiness:  The minimum swappiness to ever set on the system.
-@min_swappiness = 5
+@min_swappiness = 3
 # $low_swappiness:  The next level of swappiness to jump to on the system.
-@low_swappiness = 20
+@low_swappiness = 18
 # $high_swappiness: The medium-high level of swappiness to set on the sysetm.
-@high_swappiness = 40
+@high_swappiness = 48
 # $max_swappiness:  The absolute maximum to ever set the swappiness on the
 #                   system.
-@max_swappiness = 70
+@max_swappiness = 88
 
 opts = OptionParser.new do |opts|
   opts.banner = "Usage: #{$0} [options]"
