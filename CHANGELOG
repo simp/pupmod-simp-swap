@@ -1,3 +1,6 @@
+* Sat Dec 19 2020 Chris Tessmer <chris.tessmer@onyxpoint.com> - 0.2.1
+- Removed EL6 support
+
 * Fri Jan 03 2020 Trevor Vaughan <tvaughan@onyxpoint.com> - 0.2.0-0
 - Disable dynamic_swappiness by default
 - Set static system swappiness to 60 by default
