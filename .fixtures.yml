@@ -1,8 +1,8 @@
 ---
 fixtures:
   repositories:
-    augeasproviders_core: https://github.com/simp/augeasproviders_core
-    augeasproviders_sysctl: https://github.com/simp/augeasproviders_sysctl
+    augeasproviders_core: https://github.com/simp/augeasproviders_core.git
+    augeasproviders_sysctl: https://github.com/simp/augeasproviders_sysctl.git
     cron_core:
       repo: https://github.com/simp/pupmod-puppetlabs-cron_core.git
       puppet_version: ">= 6.0.0"
