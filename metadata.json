@@ -1,6 +1,6 @@
 {
   "name": "simp-swap",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "author": "SIMP Team",
   "summary": "A SIMP Puppet module for managing swappiness",
   "license": "Apache-2.0",
@@ -23,7 +23,7 @@
     },
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 6.6.0 < 8.0.0"
+      "version_requirement": ">= 8.0.0 < 9.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -45,6 +45,12 @@
       "operatingsystem": "OracleLinux",
       "operatingsystemrelease": [
         "7",
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "Rocky",
+      "operatingsystemrelease": [
         "8"
       ]
     }
