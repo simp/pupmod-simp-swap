@@ -1,6 +1,6 @@
 {
   "name": "simp-swap",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "author": "SIMP Team",
   "summary": "A SIMP Puppet module for managing swappiness",
   "license": "Apache-2.0",
@@ -50,6 +50,12 @@
     },
     {
       "operatingsystem": "Rocky",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "AlmaLinux",
       "operatingsystemrelease": [
         "8"
       ]
