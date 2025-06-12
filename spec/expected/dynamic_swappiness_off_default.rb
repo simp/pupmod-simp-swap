@@ -23,7 +23,7 @@ require 'optparse'
 #                   system.
 @max_swappiness = 88
 
-opts = OptionParser.new do |opts|
+opts_parser = OptionParser.new do |opts|
   opts.banner = "Usage: #{$PROGRAM_NAME} [options]"
   opts.on('--mp', '--max-percent PERCENT', 'Set the max swappiness percent.') do |mp|
     @maximum = mp.to_f
@@ -60,7 +60,7 @@ opts = OptionParser.new do |opts|
   end
 end
 
-opts.parse!(ARGV)
+opts_parser.parse!(ARGV)
 
 # Get the memory on the system.
 # Default type is free memory.
