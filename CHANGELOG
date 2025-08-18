@@ -1,3 +1,6 @@
+* Tue Jun 10 2025 Chris Tessmer <chris.tessmer@onyxpoint.com> - 0.7.1
+- Fix rubocop issues
+
 * Mon Oct 23 2023 Steven Pritchard <steve@sicura.us> - 0.7.0
 - [puppetsync] Add EL9 support
 

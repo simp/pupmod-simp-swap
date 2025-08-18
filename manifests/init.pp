@@ -94,7 +94,7 @@ class swap (
   }
   else {
     sysctl { 'vm.swappiness':
-      value  => $swappiness
+      value => $swappiness
     }
     cron { 'dynamic_swappiness':
       ensure => absent

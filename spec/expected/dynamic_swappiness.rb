@@ -23,88 +23,88 @@ require 'optparse'
 #                   system.
 @max_swappiness = 80
 
-opts = OptionParser.new do |opts|
-  opts.banner = "Usage: #{$0} [options]"
-  opts.on("--mp", "--max-percent PERCENT", "Set the max swappiness percent.") do |mp|
+opts_parser = OptionParser.new do |opts|
+  opts.banner = "Usage: #{$PROGRAM_NAME} [options]"
+  opts.on('--mp', '--max-percent PERCENT', 'Set the max swappiness percent.') do |mp|
     @maximum = mp.to_f
   end
-  opts.on("--med", "--median-percent PERCENT", "Set the increase swappiness percent.") do |ip|
+  opts.on('--med', '--median-percent PERCENT', 'Set the increase swappiness percent.') do |ip|
     @median = ip.to_f
   end
-  opts.on("--mi", "--min-percent PERCENT", "Set the minimum swappiness percent.") do |mi|
+  opts.on('--mi', '--min-percent PERCENT', 'Set the minimum swappiness percent.') do |mi|
     @minimum = mi.to_f
   end
-  opts.on("--min-swap SWAPPINESS", "Set the lowest level to ever set the swappiness.") do |ms|
+  opts.on('--min-swap SWAPPINESS', 'Set the lowest level to ever set the swappiness.') do |ms|
     @min_swappiness = ms.to_i
   end
-  opts.on("--low-swap SWAPPINESS", "Set the next swappiness step.") do |ls|
+  opts.on('--low-swap SWAPPINESS', 'Set the next swappiness step.') do |ls|
     @low_swappiness = ls.to_i
   end
-  opts.on("--high-swap SWAPPINESS", "Set the next swappiness step.") do |hs|
+  opts.on('--high-swap SWAPPINESS', 'Set the next swappiness step.') do |hs|
     @high_swappiness = hs.to_i
   end
-  opts.on("--max-swap SWAPPINESS", "Set the highest level to ever set the swappiness.") do |maxs|
+  opts.on('--max-swap SWAPPINESS', 'Set the highest level to ever set the swappiness.') do |maxs|
     @max_swappiness = maxs.to_i
   end
-  opts.on("-v", "--verbose", "Increase verbosity.") do
+  opts.on('-v', '--verbose', 'Increase verbosity.') do
     @verbose = true
   end
-  opts.on("-s", "--syslog", "Write output to syslog.") do
+  opts.on('-s', '--syslog', 'Write output to syslog.') do
     @syslog = true
     require 'syslog'
     Syslog.open('dynamic_swappiness')
   end
-  opts.on("-h", "--help", "Show this message") do
+  opts.on('-h', '--help', 'Show this message') do
     puts opts
     exit
   end
 end
 
-opts.parse!(ARGV)
+opts_parser.parse!(ARGV)
 
 # Get the memory on the system.
 # Default type is free memory.
-def getmem( type = "free" )
-  meminfo = File.open("/proc/meminfo","r")
-  memtype = "MemFree"
+def getmem(type = 'free')
+  meminfo = File.open('/proc/meminfo', 'r')
+  memtype = 'MemFree'
 
-  if not type.eql?("free") then
-    memtype = "MemTotal"
+  unless type.eql?('free')
+    memtype = 'MemTotal'
   end
 
   ret = nil
   meminfo.each do |line|
-    if line =~ /^#{memtype}:\s*(\d+).*/ then
-      ret = $1.to_f
+    if line =~ %r{^#{memtype}:\s*(\d+).*}
+      ret = Regexp.last_match(1).to_f
       break
     end
   end
   meminfo.close
-  return ret
+  ret
 end
 
 # Return the percentage of the free memory on the system.
 def percent_memfree
-  return ((getmem/@memtotal) * 100).to_i
+  ((getmem / @memtotal) * 100).to_i
 end
 
 # Modify the swappiness of the system.
 def mod_swappiness(swappiness)
-  if @verbose then
+  if @verbose
     puts "Setting vm.swappiness = #{swappiness}"
   end
-  if @syslog then
+  if @syslog
     Syslog.notice("Setting vm.swappiness = #{swappiness}")
   end
 
   `/sbin/sysctl -w vm.swappiness=#{swappiness}`
 end
 
-@memtotal = getmem("total")
+@memtotal = getmem('total')
 
 memfree = percent_memfree
 
-if @verbose then
+if @verbose
   puts "Maximum: #{@maximum}"
   puts "Median: #{@median}"
   puts "Minimum: #{@minimum}"
@@ -116,50 +116,50 @@ if @verbose then
   puts
   puts "Free Memory: #{memfree}%"
 end
-if @syslog then
+if @syslog
   Syslog.notice("Free Memory: #{memfree}%")
 end
 
-if @maximum > 100 then
+if @maximum > 100
   @maximum = 100
 end
-if @median > @maximum then
+if @median > @maximum
   @median = @maximum - 1
 end
-if @minimum > @median then
-  @minimum = @median -1
+if @minimum > @median
+  @minimum = @median - 1
 end
-if @minimum < 1 then
+if @minimum < 1
   @minimum = 1
 end
 
-if @min_swappiness < 1 then
+if @min_swappiness < 1
   @min_swappiness = 1
 end
-if @low_swappiness < @min_swappiness then
+if @low_swappiness < @min_swappiness
   @low_swappiness = @min_swappiness + 1
 end
-if @high_swappiness < @low_swappiness then
+if @high_swappiness < @low_swappiness
   @high_swappiness = @low_swappiness + 1
 end
-if @max_swappiness < @high_swappiness then
+if @max_swappiness < @high_swappiness
   @max_swappiness = @high_swappiness + 1
 end
-if @max_swappiness > 100 then
+if @max_swappiness > 100
   @max_swappiness = 100
 end
 
 case memfree
-  when @maximum...100
-    mod_swappiness(@min_swappiness)
-  when @median...@maximum
-    mod_swappiness(@low_swappiness)
-  when @minimum...@median
-    mod_swappiness(@high_swappiness)
-  else
-    mod_swappiness(@max_swappiness)
+when @maximum...100
+  mod_swappiness(@min_swappiness)
+when @median...@maximum
+  mod_swappiness(@low_swappiness)
+when @minimum...@median
+  mod_swappiness(@high_swappiness)
+else
+  mod_swappiness(@max_swappiness)
 end
 
-if @syslog then
+if @syslog
   Syslog.close
 end
