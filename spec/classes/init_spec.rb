@@ -32,14 +32,14 @@ describe 'swap' do
             let(:params) do
               {
                 dynamic_script: true,
-             cron_step: 10,
-             maximum: 45,
-             median: 25,
-             minimum: 15,
-             min_swappiness: 3,
-             low_swappiness: 18,
-             high_swappiness: 48,
-             max_swappiness: 88
+                cron_step: 10,
+                maximum: 45,
+                median: 25,
+                minimum: 15,
+                min_swappiness: 3,
+                low_swappiness: 18,
+                high_swappiness: 48,
+                max_swappiness: 88,
               }
             end
 
