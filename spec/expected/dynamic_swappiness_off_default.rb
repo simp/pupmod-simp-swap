@@ -65,7 +65,7 @@ opts_parser.parse!(ARGV)
 # Get the memory on the system.
 # Default type is free memory.
 def getmem(type = 'free')
-  meminfo = File.open('/proc/meminfo', 'r')
+  meminfo = File.read('/proc/meminfo')
   memtype = 'MemFree'
 
   unless type.eql?('free')
@@ -73,13 +73,12 @@ def getmem(type = 'free')
   end
 
   ret = nil
-  meminfo.each do |line|
+  meminfo.lines.each do |line|
     if line =~ %r{^#{memtype}:\s*(\d+).*}
       ret = Regexp.last_match(1).to_f
       break
     end
   end
-  meminfo.close
   ret
 end
 

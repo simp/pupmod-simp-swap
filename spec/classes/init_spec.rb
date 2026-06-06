@@ -16,7 +16,7 @@ describe 'swap' do
 
         context 'with dynamic_script => true' do
           context 'with default parameters' do
-            let(:params) { { dynamic_script: true, } }
+            let(:params) { { dynamic_script: true } }
             let(:content) { File.read('spec/expected/dynamic_swappiness.rb') }
 
             it { is_expected.to create_file('/usr/local/sbin/dynamic_swappiness.rb').with_content(content) }
