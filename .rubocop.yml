@@ -13,6 +13,7 @@ AllCops:
     - bin/*
     - ".vendor/**/*"
     - pkg/**/*
+    - spec/expected/**/*
     - spec/fixtures/**/*
     - vendor/**/*
     - "**/Puppetfile"
