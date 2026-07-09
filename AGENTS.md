@@ -64,18 +64,16 @@ classes.
   (shebang `/opt/puppetlabs/puppet/bin/ruby`), not a config-file template. Only
   the threshold/level parameters are interpolated in as script defaults
   (`@maximum`, `@median`, `@minimum`, `@min_swappiness`, `@low_swappiness`,
-  `@high_swappiness`, `@max_swappiness` — erb lines 7-24); everything else is
+  `@high_swappiness`, `@max_swappiness`); everything else is
   static Ruby. At runtime it:
-  - reads `MemFree` / `MemTotal` from `/proc/meminfo` and computes percent free
-    (erb:67-88);
+  - reads `MemFree` / `MemTotal` from `/proc/meminfo` and computes percent free;
   - clamps/normalizes the thresholds and levels so they stay ordered and in
-    range (erb:122-149);
+    range;
   - selects a swappiness level by which free-memory band the host is in and
-    applies it by shelling out to `/sbin/sysctl -w vm.swappiness=<n>`
-    (erb:91-100,151-160) — **more free memory → lower swappiness; less free
+    applies it by shelling out to `/sbin/sysctl -w vm.swappiness=<n>` — **more free memory → lower swappiness; less free
     memory → higher swappiness**;
   - supports `--verbose`, `--syslog`, and command-line overrides for every
-    threshold/level (erb:26-63), though the cron job invokes it with no
+    threshold/level, though the cron job invokes it with no
     arguments.
 
 ### Gotchas / non-obvious details
@@ -90,8 +88,7 @@ classes.
   static mode.** The docstring repeats "Has no effect if `$dynamic_script` is
   `false`" for every threshold/level parameter (`init.pp`).
 - **The dynamic script bypasses Puppet's sysctl provider at runtime.** In
-  dynamic mode swappiness is set by the cron job calling `sysctl -w` directly
-  (erb:99), *not* by the `augeasproviders_sysctl` provider — so the value is
+  dynamic mode swappiness is set by the cron job calling `sysctl -w` directly, *not* by the `augeasproviders_sysctl` provider — so the value is
   not persisted to `/etc/sysctl.conf`/`sysctl.d` and does not survive a reboot
   on its own; the cron job re-applies it. Static mode, by contrast, uses the
   `sysctl` type which does persist.
