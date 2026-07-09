@@ -72,7 +72,6 @@ class swap (
   Integer[0,100] $high_swappiness = 40,
   Integer[0,100] $max_swappiness  = 80
 ) {
-
   if $dynamic_script {
     # NOTE: This script is handy for keeping things alive in environments where
     #       memory availability can fluctuate quite low.  You should read it!
