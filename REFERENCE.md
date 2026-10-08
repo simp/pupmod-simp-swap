@@ -136,4 +136,3 @@ The absolute maximum to ever set the swappiness on the system.
 * Has no effect if `$dynamic_script` is `false`
 
 Default value: `80`
-
